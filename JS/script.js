@@ -16,6 +16,19 @@ btnMenu.addEventListener('click', (e) => {
     */
 });
 
+//Preenchendo as informações confidenciais do projeto. Ele busca essas informações no arquivo config.js e puxa os dados do objeto que esta salvo lá
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof dadosSensiveis !== "undefined") {
+        document.querySelectorAll('[data-sensitive]').forEach(element => {
+            const key = element.getAttribute('data-sensitive');
+                        
+            if (dadosSensiveis[key]) {
+                element.textContent = dadosSensiveis[key];                
+            }
+        });
+    }
+});
+
 document.querySelector('ul').addEventListener('click', async e => {
     const link = e.target.getAttribute('src');
 
