@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Trabalho</title>
+    <link rel="shortcut icon" href="imagem/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="CSS/style.css">
+    <script src="JS/script.js" defer></script>
+</head>
+<body>
+    <div id="menu-links-info">
+        
+        <nav class="nav">
+            <p>30741409</p>
+            <p>Cpd78-tec</p>
+            <p>Acesso: 540856</p>
+            <ul>
+                <li><a src="https://infoseg.sinesp.gov.br/infoseg2/">Infoseg</a></li>
+                <li><a src="https://analitico.ipe-policiacivil.sp.gov.br/#/inicio">Analítico</a></li>
+            </ul>
+        </nav>
+        <button class="btn-menu"><i class="fa-solid fa-list"></i></button>
+
+    </div>
+    
+    <h1>ÁREA DE TRABALHO</h1>
+    
+    <div id="container-nome">
+        <input type="text" id="nome" placeholder="Nome" autocomplete="off">
+        
+        <div class="btn-cpf none-input" id="btn-cpf">
+            <p>, </p>
+            <input type="text" class="cpf" id="cpf" placeholder="CPF" autocomplete="off">
+            <button class="btn-nome"><i class="fa-regular fa-copy" style="color: #f5f5f5;"></i></button>
+        </div>
+        
+    </div>
+         
+    <div id="area-selecao">     
+            <input class="input-chekbox" type="checkbox" name="indices" id="indices"/>
+            <label class="input-selecao" for="indices">Índices</label>
+       
+            <input class="input-chekbox" type="checkbox" name="procedimento" id="procedimento"/>
+            <label class="input-selecao proc" for="procedimento">Procedimentos</label>
+       
+            <input class="input-chekbox" type="checkbox" name="criminal" id="criminal"/>
+            <label class="input-selecao" for="criminal">Criminal</label>
+        
+            <input class="input-chekbox" type="checkbox" name="b-o" id="bo"/>
+            <label class="input-selecao" for="bo">B.O's</label>       
+    </div>
+    
+    <div id="container-ferramentas">
+        <!-----------------------------  INDICES  ------------------------------------>
+        <div class="area-indices">
+            <div id="aba-indice">
+                <button class="aba-btn-indice ativo" content-id="aba-indice1">1</button>
+            </div>
+
+            <div class="container-indices show" id="aba-indice1">
+                <h3>Indices</h3>
+                <div class="linha-indice">
+                    <label for="linha1">Indice Nacional</label>
+                    <input class="indice-nacional" name="linha1" type="text" autocomplete="off">
+                </div>
+                
+                <div class="linha-indice">
+                    <label for="linha2">Indicadores</label>
+                    <input class="indicadores" name="linha2" type="text" autocomplete="off">
+                </div>  
+            </div>
+
+            <button id="btn-add-aba-indice"><i class="fa-solid fa-plus"></i></button> 
+        </div>
+        
+        <!-----------------------------  PROCEDIMENTOS  --------------------------------->
+        <div class="area-procedimento">
+                <div id="abas-btn">
+                    <button class="aba-btn ativo" content-id="aba1">1</button>      
+                </div>
+
+                <div class="conteudo-procedimento show" id="aba1">
+                    <div class="btn-escolha-procedimento">
+                        <button class="btn-procedimento">Procedimentos</button>
+                        <button class="btn-envolvidos">Lista de Envolvidos</button>
+                    </div>
+                    
+                    <textarea placeholder="Procedimentos" name="area-texto-procedimento" class="texto-procedimento mostrar" "></textarea>
+                    <textarea placeholder="Lista de Envolvidos" name="area-texto-envolvidos" class="texto-envolvidos esconder"></textarea>
+                </div>
+                
+            <button id="btn-add-aba-procedimento"><i class="fa-solid fa-plus"></i></button> 
+        </div>
+        
+        <!------------------------------  CRIMINAIS  ------------------------------------>
+        
+        <div class="area-criminal">
+            <div id="btn-criminal">
+                <button class="btn-inquerito">INQUÉRITO</button>
+                <button class="btn-processo">PROCESSO</button>            
+            </div>
+
+            <textarea name="inquerito" class="txt-inquerito mostrar" placeholder="Inquéritos"></textarea>
+            <textarea name="processo" class="txt-processo esconder" placeholder="Processos"></textarea>
+        </div>
+
+        <!------------------------------  B.O's  -------------------------------------->
+        <div class="area-bo">
+            <span>B.O's</span>
+            <textarea name="bo" class="conteudo-bo" id="conteudo-bo" placeholder="Boletins de Ocorrência"></textarea>
+        </div>
+        
+    </div>
+
+    <button id="gerar-relatorio">GERAR RELATÓRIO</button>
+    
+    <button id="ver-relatorio"><i class="fa-solid fa-file-invoice"></i></button>
+
+    <div class="relatorio" id="relatorio">
+        <textarea name="" id="" disabled></textarea>
+    </div>
+</body>
+</html>
