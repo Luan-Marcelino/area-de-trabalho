@@ -5,15 +5,7 @@ const nome = document.querySelector('#nome');
 //Mostrar menu
 const btnMenu = document.querySelector('.btn-menu');
 btnMenu.addEventListener('click', (e) => {
-       
     document.querySelector('nav').classList.toggle('mostrar');
-    /*
-    if(document.querySelector('nav').classList.contains('mostrar')) {
-        btnMenu.style.alignSelf = 'center';
-    }else {
-        btnMenu.style.alignSelf = 'flex-start';
-    }
-    */
 });
 
 //Preenchendo as informações confidenciais do projeto. Ele busca essas informações no arquivo config.js e puxa os dados do objeto que esta salvo lá
