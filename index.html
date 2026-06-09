@@ -22,35 +22,40 @@
                 <li><a src="https://analitico.ipe-policiacivil.sp.gov.br/#/inicio">Analítico</a></li>
             </ul>
         </nav>
-        <button class="btn-menu"><i class="fa-solid fa-list"></i></button>
 
+        <button class="btn-menu"><i class="fa-solid fa-list"></i></button>
+        
     </div>
-    
-    <h1>ÁREA DE TRABALHO</h1>
+    <button href="https://luan-marcelino.github.io/area-de-trabalho/" target="_blank" class="btn-add-aba"><i class="fa-solid fa-plus"></i></button>
+    <h1>FORMATADOR</h1>
     
     <div id="container-nome">
-        <input type="text" id="nome" placeholder="Nome" autocomplete="off">
-        
-        <div class="btn-cpf none-input" id="btn-cpf">
-            <p>, </p>
-            <input type="text" class="cpf" id="cpf" placeholder="CPF" autocomplete="off">
-            <button class="btn-nome"><i class="fa-regular fa-copy" style="color: #f5f5f5;"></i></button>
+        <div class="container-nome-cpf">
+            <input type="text" id="nome" placeholder="Nome" autocomplete="off">
+            
+            <div class="btn-cpf" id="btn-cpf">
+                <p>, </p>
+                <input type="text" class="cpf" id="cpf" placeholder="CPF" autocomplete="off">
+                <button class="btn-nome"><i class="fa-regular fa-copy" style="color: #f5f5f5;"></i></button>
+            </div>
+
         </div>
         
+        <div id="nome-mae" class="nome-mae none-input">
+            <input type="text" placeholder="Nome da Mãe" autocomplete="off">
+            <button class="btn-nome-mae"><i class="fa-regular fa-copy" style="color: #f5f5f5;"></i></button>
+        </div>
     </div>
          
     <div id="area-selecao">     
-            <input class="input-chekbox" type="checkbox" name="indices" id="indices"/>
-            <label class="input-selecao" for="indices">Índices</label>
-       
-            <input class="input-chekbox" type="checkbox" name="procedimento" id="procedimento"/>
-            <label class="input-selecao proc" for="procedimento">Procedimentos</label>
-       
-            <input class="input-chekbox" type="checkbox" name="criminal" id="criminal"/>
-            <label class="input-selecao" for="criminal">Criminal</label>
-        
-            <input class="input-chekbox" type="checkbox" name="b-o" id="bo"/>
-            <label class="input-selecao" for="bo">B.O's</label>       
+        <input class="input-chekbox" type="checkbox" name="procedimento" id="procedimento"/>
+        <label class="input-selecao proc" for="procedimento">Procedimentos</label>
+    
+        <input class="input-chekbox" type="checkbox" name="criminal" id="criminal"/>
+        <label class="input-selecao" for="criminal">Criminal</label>
+    
+        <input class="input-chekbox" type="checkbox" name="b-o" id="bo"/>
+        <label class="input-selecao" for="bo">B.O's</label>       
     </div>
     
     <div id="container-ferramentas">

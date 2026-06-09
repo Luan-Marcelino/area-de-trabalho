@@ -29,11 +29,20 @@ document.querySelector('ul').addEventListener('click', async e => {
 })
 
 //---------------- Nome --------------------//
-const btnCopiarNomeCPF = document.querySelector('#container-nome button');
+const btnCopiarNomeCPF = document.querySelector('.btn-nome');
+const btnCopiarHomonimo = document.querySelector('.btn-nome-mae');
+
 const cpf = document.querySelector('#cpf');
+const nomeMae = document.querySelector('#nome-mae input')
 
 document.addEventListener('keydown', (e) => {
-    const container_cpfBtn = document.querySelector('#btn-cpf');
+    const container_cpfBtn = document.querySelector('.nome-mae');
+    /*
+    if(e.ctrlKey && e.key === 'q') {
+        e.preventDefault();
+        container_cpfBtn.classList.toggle('none-input');
+    }
+    */
 
     if(e.ctrlKey && e.key === 'q') {
         e.preventDefault();
@@ -50,65 +59,14 @@ btnCopiarNomeCPF.addEventListener('click', async () => {
     
 })
 
-//---------------- Fim Nome --------------------//
-
-//---------------------------   INDICES   -------------------------------//
-
-function selecionarAbaIndice(conteudoIndice) {
-    //Removendo de todas as abas a classe ativo, depois colocando na aba que esta clicada
-    document.querySelectorAll('.aba-btn-indice').forEach(btn => {btn.classList.remove('ativo');});
-    conteudoIndice.classList.add('ativo');
-    //removendo a classe show do conteudo do indice
-    document.querySelectorAll('.container-indices').forEach(conteudo => {conteudo.classList.remove('show');});
-
-    const idIndice = conteudoIndice.getAttribute('content-id');
-    let conteudoAtual = document.getElementById(idIndice);
-    // Adiciona a class show para os conteudos que tem o mesmo nome de id da aba que foi clicada
-    conteudoAtual.classList.add('show');    
-}
-
-// Evita que os listenner se acumulem e manda o objeto clicado pra função
-document.querySelector('.area-indices').addEventListener('click', (e) => {
-    if(e.target.classList.contains('aba-btn-indice')) {
-        selecionarAbaIndice(e.target);
+btnCopiarHomonimo.addEventListener('click', async () => {
+    if(nomeMae !== '') {
+        const homonimo = `${cpf.value}, "${nome.value}" + Mae:${nomeMae.value}`;
+        await navigator.clipboard.writeText(homonimo);
     }
 })
 
-const btn_addIndice = document.querySelector('#btn-add-aba-indice');
-// Criando as abas
-btn_addIndice.addEventListener('click', () => {
-    const numAba = document.querySelectorAll('.aba-btn-indice');
-
-    const btnIndice = document.createElement('button');
-    btnIndice.textContent = numAba.length + 1;
-    btnIndice.classList.add('aba-btn-indice');
-    btnIndice.setAttribute('content-id', `aba-indice${numAba.length+1}`);
-    document.querySelector('#aba-indice').appendChild(btnIndice);
-    
-    const novoIndice = document.createElement('div');
-    novoIndice.className = 'container-indices';
-    novoIndice.id = `aba-indice${numAba.length+1}`;
-    novoIndice.innerHTML = `
-            <h3>Indices</h3>
-            <div class="linha-indice">
-                <label for="linha1">Indice Nacional</label>
-                <input class="indice-nacional" name="linha1" type="text" autocomplete="off">
-            </div>
-            
-            <div class="linha-indice">
-                <label for="linha2">Indicadores</label>
-                <input class="indicadores" name="linha2" type="text" autocomplete="off">
-            </div>`
-
-    document.querySelector('.area-indices').insertBefore(novoIndice, btn_addIndice);
-    console.log(novoIndice);
-    
-    selecionarAbaIndice(btnIndice);
-    
-});
-
-//---------------------------   FIM INDICES   -------------------------------//
-
+//---------------- Fim Nome --------------------//
 
 //---------------------------   PROCEDIMENTOS   -------------------------------//
 
@@ -241,20 +199,19 @@ selecionarCriminais();
 
 function formatarCriminaisInquerito(inquerito) {
     let textoFinal = '';
-    console.log(inquerito);
     
-        const blocos = inquerito.split('\n\n');
-        blocos.forEach(texto => {
-            const quebrarLinha = texto.split('\n');
-            let textoParcial = [];
-            // Tirando os espaços de tab(\t)
-            quebrarLinha.forEach(linha => {
-                const textoSemEspaco = linha.replace(/\t/g,'');
-                textoParcial.push(textoSemEspaco);            
-            });
-                    
-            textoFinal += `${textoParcial[0]})\nNúmero/Ano: ${textoParcial[1]}\nDelegacio: ${textoParcial[2]}\nVitima: ${textoParcial[3]}\nData do fato: ${textoParcial[4]}\nData da instauração: ${textoParcial[5]}\nIncidencia penal: ${textoParcial[6]}\n\n`;
+    const blocos = inquerito.split('\n\n');
+    blocos.forEach(texto => {
+        const quebrarLinha = texto.split('\n');
+        let textoParcial = [];
+        // Tirando os espaços de tab(\t)
+        quebrarLinha.forEach(linha => {
+            const textoSemEspaco = linha.replace(/\t/g,'');
+            textoParcial.push(textoSemEspaco);            
         });
+                
+        textoFinal += `${textoParcial[0]})\nNúmero/Ano: ${textoParcial[1]}\nDelegacio: ${textoParcial[2]}\nVitima: ${textoParcial[3]}\nData do fato: ${textoParcial[4]}\nData da instauração: ${textoParcial[5]}\nIncidencia penal: ${textoParcial[6]}\n\n`;
+    });
 
     if(inquerito !== '') {
         return textoFinal.replace(/undefined/g,'');
@@ -343,11 +300,11 @@ function gerarRelatorioCompleto() {
     
     const nomeFormatado = nome.value.toUpperCase();
 
-    const indicesAtivo = document.querySelector('#indices').checked;
     const procedimentoAtivo = document.querySelector('#procedimento').checked;
     const criminalAtivo = document.querySelector('#criminal').checked;
     const boAtivo = document.querySelector('#bo').checked;
     
+
     if(nomeFormatado !== '') {
         //Criminal
         if(criminalAtivo) {
@@ -358,16 +315,9 @@ function gerarRelatorioCompleto() {
 
         //B.O's
         if(boAtivo) {
-            relatorioParcial.push(`- BOs RDO-SPJ SP=> Constam BOs para ${nomeFormatado}\n`);
+            relatorioParcial.push(`- BOs RDO-SPJ SP=> Constam BOs para ${nomeFormatado}`);
         }else {
-            relatorioParcial.push(`- BOs RDO-SPJ SP=> Não Constam BOs para ${nomeFormatado}\n`);
-        }
-
-        //Indices
-        if(indicesAtivo) {
-            relatorioParcial.push(`- INFOSEG=> Constam Índices(Instruções Criminais) para ${nomeFormatado}`);
-        }else {
-            relatorioParcial.push(`- INFOSEG=> Não constam Índices(Instruções Criminais) para ${nomeFormatado}`);
+            relatorioParcial.push(`- BOs RDO-SPJ SP=> Não Constam BOs para ${nomeFormatado}`);
         }
 
         //Procedimentos
@@ -380,21 +330,7 @@ function gerarRelatorioCompleto() {
         relatorioFinal += relatorioParcial.join('\n');
     }
     // verificando se tem indice para colocar o cabeçalho
-    if(indicesAtivo) {
-        const abaIndices = document.querySelectorAll('.container-indices');
-        
-        relatorioFinal += `=====================================================================================
-************ ÍNDICES(INSTRUÇÕES CRIMINAIS) PARA => ${nome.value.toUpperCase()} ************
-=====================================================================================\n\n`;
-        
-            abaIndices.forEach(aba => {
-                const indiceNacional = aba.querySelector('.indice-nacional');
-                const indicadores = aba.querySelector('.indicadores');
-                    
-                    relatorioFinal += `Índice Nacional por(pela) ${indiceNacional.value}\nIndicadores:${indicadores.value}\n\n`;
-            });
-        
-        }
+
         if(criminalAtivo) {
             const inquerito = document.querySelector('.txt-inquerito');
             const processo = document.querySelector('.txt-processo');
@@ -402,19 +338,19 @@ function gerarRelatorioCompleto() {
             const inqueritoFormatado = formatarCriminaisInquerito(inquerito.value);
             const processoFormatado = formatarCriminaisProcesso(processo.value);
 
-            relatorioFinal += `=====================================================================================
-************ INQUÉRITOS POLICIAIS PARA => ${nomeFormatado} ************
-=====================================================================================\n\n${inqueritoFormatado}\n=====================================================================================
-************ PROCESSOS CRIMINAIS PARA => ${nomeFormatado} ************
-=====================================================================================\n\n${processoFormatado}\n`
+            relatorioFinal += `===========================================
+******** INQUÉRITOS POLICIAIS ********
+===========================================\n\n${inqueritoFormatado}\n===========================================
+******** PROCESSOS CRIMINAIS ********
+===========================================\n\n${processoFormatado}\n`
         }
 
         if(procedimentoAtivo) {
             const abas = document.querySelectorAll('.conteudo-procedimento');
 
-            relatorioFinal += `=====================================================================================
-************ PROCEDIMENTOS(BOLETIM DE OCORRÊNCIA) PARA => ${nome.value.toUpperCase()} ************
-=====================================================================================\n\n`;
+            relatorioFinal += `===========================================
+******** PROCEDIMENTOS(BOLETIM DE OCORRÊNCIA) ********
+===========================================\n\n`;
     
             abas.forEach((aba, index) => {
                 const num = index + 1;
@@ -434,12 +370,13 @@ function gerarRelatorioCompleto() {
 
         // Os b.os é só o value 
         const bos = document.querySelector('#conteudo-bo');
-        relatorioFinal += `=====================================================================================
-************ BOLETIM DE OCORRÊNCIA RDO-SPJ SP ${nome.value.toUpperCase()} ************
-=====================================================================================\n
+        relatorioFinal += `==============================================
+******** BOLETIM DE OCORRÊNCIA RDO-SPJ SP ********
+================================================\n
 ${bos.value}`;
 
     }
+    
        
     relatorio.value = relatorioFinal;
 }
@@ -449,12 +386,6 @@ document.querySelector('.area-procedimento').addEventListener('input', (e) => {
     if(e.target.classList.contains('texto-procedimento')|| e.target.classList.contains('texto-envolvidos')) {
         gerarRelatorioCompleto();      
        }
-});
-
-document.querySelector('.area-indices').addEventListener('input', (e) => {
-    if(e.target.classList.contains('indice-nacional') || e.target.classList.contains('indicadores')) {
-        gerarRelatorioCompleto();
-    }
 });
 
 document.querySelector('.area-bo').addEventListener('input', (e) => {
@@ -472,7 +403,6 @@ function limpaTudo(){
     //Limpando todas as textAreas e Inputs
     document.querySelector('#nome').value = '';
     document.querySelector('#cpf').value = '';
-    document.querySelectorAll('.indice-nacional').forEach(indice => {indice.value = '';});
     document.querySelectorAll('.indicadores').forEach(indicadores => {indicadores.value = ''});
     document.querySelectorAll('.texto-procedimento').forEach(texto => {texto.value = ''});
     document.querySelectorAll('.texto-envolvidos').forEach(texto => {texto.value = ''});
@@ -483,7 +413,6 @@ function limpaTudo(){
     //desmarcando as checkbox
     document.querySelectorAll('.input-chekbox').forEach(checkbox => {checkbox.checked = false;});
     //fechando as areas
-    document.querySelector('.area-indices').classList.remove('mostrar-area');
     document.querySelector('.area-procedimento').classList.remove('mostrar-area');
     document.querySelector('.area-criminal').classList.remove('mostrar-area');
     document.querySelector('.area-bo').classList.remove('mostrar-area');
@@ -496,19 +425,6 @@ function limpaTudo(){
     btnProcesso.style.backgroundColor = '#480000';
     document.querySelector('.txt-inquerito').classList.replace('esconder', 'mostrar');
     document.querySelector('.txt-processo').classList.replace('mostrar', 'esconder');
-
-    //removendo as abas dos Indices
-    const abaIndicePai = document.querySelector('#aba-indice');
-    const abaIndiceFilho = abaIndicePai.querySelectorAll('.aba-btn-indice');
-    const conteudoIndicePai = document.querySelector('.area-indices');
-    const conteudoIndiceFilho = conteudoIndicePai.querySelectorAll('.container-indices');
-
-    for(let i = abaIndiceFilho.length -1; i > 0; i--){ // Apaga de trás para frente
-        abaIndicePai.removeChild(abaIndiceFilho[i]);
-        conteudoIndicePai.removeChild(conteudoIndiceFilho[i]);
-    }
-
-    selecionarAbaIndice(abaIndiceFilho[0]);
 
     //removendo as abas dos procedimentos
     const abaProcedimentoPai = document.querySelector('#abas-btn');
@@ -533,8 +449,11 @@ function limpaTudo(){
 
 document.querySelector('#gerar-relatorio').addEventListener('click', async () => {
     const textoRelatorio = relatorio.value;
-    await navigator.clipboard.writeText(textoRelatorio);
-    limpaTudo();
+    if(relatorio.value != '') {
+        await navigator.clipboard.writeText(textoRelatorio);
+        limpaTudo();
+    }
+    
 });
 
 // 
@@ -584,18 +503,7 @@ function deletarAbas(divAba, aba, divConteudo, conteudo, tipoSelecao){
     abaFilho.forEach(aba => aba.classList.remove('ativo'));
     conteudoFilho.forEach(conteudo => conteudo.classList.remove('show'));
    
-   
-   if(tipoSelecao === 'indice') {
-        selecionarAbaIndice(abaFilho[0]);
-   }else {
-        selecionarAba(abaFilho[0]);
-   }
 }
-
-document.querySelector('#aba-indice').addEventListener('dblclick', () => {
-    deletarAbas('#aba-indice', '.aba-btn-indice', '.area-indices', '.container-indices','indice');
-
-});
 
 document.querySelector('#abas-btn').addEventListener('dblclick', () => {
     deletarAbas('#abas-btn', '.aba-btn', '.area-procedimento', '.conteudo-procedimento', '');
