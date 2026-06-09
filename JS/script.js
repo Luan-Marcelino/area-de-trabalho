@@ -32,21 +32,23 @@ document.querySelector('ul').addEventListener('click', async e => {
 const btnCopiarNomeCPF = document.querySelector('.btn-nome');
 const btnCopiarHomonimo = document.querySelector('.btn-nome-mae');
 
-const cpf = document.querySelector('#cpf');
+const cpf = document.querySelector('.cpf');
 const nomeMae = document.querySelector('#nome-mae input')
 
 document.addEventListener('keydown', (e) => {
     const container_cpfBtn = document.querySelector('.nome-mae');
-    /*
-    if(e.ctrlKey && e.key === 'q') {
-        e.preventDefault();
-        container_cpfBtn.classList.toggle('none-input');
-    }
-    */
 
     if(e.ctrlKey && e.key === 'q') {
-        e.preventDefault();
+        
         container_cpfBtn.classList.toggle('none-input');
+        btnCopiarNomeCPF.classList.toggle('none-input');
+        //Mudando border radius 
+        if(cpf.style.borderRadius !== '5px') {
+            cpf.style.borderRadius = '5px';
+        }else {
+            cpf.style.borderRadius = '5px 0 0 5px';
+        }
+        
     }
 })
 

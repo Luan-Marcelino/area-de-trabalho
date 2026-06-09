@@ -102,6 +102,8 @@ h1 {
 .nome-mae {
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin-top: -20px;
 }
 
 .nome-mae input {
@@ -122,6 +124,7 @@ h1 {
     width: 450px;
     display: flex;
     align-items: center;
+    
 }
 
 #btn-cpf p {
