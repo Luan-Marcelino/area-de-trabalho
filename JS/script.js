@@ -28,6 +28,13 @@ document.querySelector('ul').addEventListener('click', async e => {
     
 })
 
+const addAba = document.querySelector('.btn-add-aba');
+
+addAba.addEventListener('click', () => {
+    //abre uma nova aba
+    window.open("https://luan-marcelino.github.io/area-de-trabalho/", "_blank")
+});
+
 //---------------- Nome --------------------//
 const btnCopiarNomeCPF = document.querySelector('.btn-nome');
 const btnCopiarHomonimo = document.querySelector('.btn-nome-mae');
