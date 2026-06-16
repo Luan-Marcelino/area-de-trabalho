@@ -32,30 +32,29 @@ const addAba = document.querySelector('.btn-add-aba');
 
 addAba.addEventListener('click', () => {
     //abre uma nova aba
-    window.open("https://luan-marcelino.github.io/area-de-trabalho/", "_blank")
+    window.open("file:///C:/Users/selan/OneDrive/%C3%81rea%20de%20Trabalho/Projetos/Projetos%202025/Projetos%20Pessoais/%C3%81rea%20de%20Trabalho/index.html", "_blank")//Versão para meu pc
 });
 
 //---------------- Nome --------------------//
 const btnCopiarNomeCPF = document.querySelector('.btn-nome');
 const btnCopiarHomonimo = document.querySelector('.btn-nome-mae');
-
+const container_cpfBtn = document.querySelector('.nome-mae');
 const cpf = document.querySelector('.cpf');
 const nomeMae = document.querySelector('#nome-mae input')
 
-document.addEventListener('keydown', (e) => {
-    const container_cpfBtn = document.querySelector('.nome-mae');
 
+function abrirFecharNomeCPF() {
+    container_cpfBtn.classList.toggle('none-input');
+    btnCopiarNomeCPF.classList.toggle('none-input');
+
+    //Mudando border radius 
+    cpf.style.borderRadius !== '5px' ? cpf.style.borderRadius = '5px' : cpf.style.borderRadius = '5px 0 0 5px';
+}
+
+document.addEventListener('keydown', (e) => {
+    
     if(e.ctrlKey && e.key === 'q') {
-        
-        container_cpfBtn.classList.toggle('none-input');
-        btnCopiarNomeCPF.classList.toggle('none-input');
-        //Mudando border radius 
-        if(cpf.style.borderRadius !== '5px') {
-            cpf.style.borderRadius = '5px';
-        }else {
-            cpf.style.borderRadius = '5px 0 0 5px';
-        }
-        
+        abrirFecharNomeCPF();
     }
 })
 
@@ -265,42 +264,29 @@ const relatorio = document.querySelector('#relatorio textarea');
 function formatandoProcedimento(textoProcedimento) {
     const texto = textoProcedimento.value;
     // Separar o txt por quebrar linha
-    const textoFormatado = texto.split('\n');
+    const textoFormatado = texto.split('\n').filter(lista => lista !== '');
     
-    let textoFinal = '';// Variavel para guardar o que vai ser formatado
-    let contador = 0;
+    let textoFinal = [];// Variavel para guardar o que vai ser formatado
 
-    if(textoFormatado[0] != "") {
-        while(contador < textoFormatado.length) {
-            textoFinal += `${textoFormatado[contador]}: ${textoFormatado[contador + 1]}\n`;
-            //A terceira linha é ""
-            contador = contador + 3;
-        }  
-    }else {
-        //Se a primeira linha estiver "", ele vai somar mais 1 para dar certo
-            contador = 1;
-            while(contador < textoFormatado.length) {
-            textoFinal += `${textoFormatado[contador]}: ${textoFormatado[contador + 1]}\n`;
-            //A terceira linha é ""
-            contador = contador + 3;
-            }
-        }
+    for(let i = 0; i < textoFormatado.length; i = i + 2) {
 
-    return textoFinal;
+        textoFinal.push(`${textoFormatado[i]} : ${textoFormatado[i+1]}`)
+        
+    }
+
+    return textoFinal.join('\n');
 }
 
 function formatandoEnvolvidos(textoEnvolvidos) {
     const texto = textoEnvolvidos.value;
-    const textoFormatado = texto.split('\n');
-    let envolvidos = '';
-    let contador = 0;
+    const textoFormatado = texto.split('\n').filter(lista => lista !== '');
+    let envolvidos = [];
     
-    while(contador < textoFormatado.length) {
-        envolvidos += `Nome:${textoFormatado[contador]} - ${textoFormatado[contador + 2]} - Natureza:${textoFormatado[contador + 4]}\n`;
-        contador = contador + 6;
+    for(let i = 0; i < textoFormatado.length; i = i + 3){
+        envolvidos.push(`Nome: ${textoFormatado[i]} - ${textoFormatado[i + 1]} - Natureza: ${textoFormatado[i + 2]}`);
     }
     
-    return envolvidos;    
+    return envolvidos.join('\n');    
 }
 
 function gerarRelatorioCompleto() {
@@ -369,7 +355,7 @@ function gerarRelatorioCompleto() {
                 const textoProc = formatandoProcedimento(txtProcedimento);
                 const textoEnvol = formatandoEnvolvidos(txtEnvolvidos);
 
-                relatorioFinal += `==========>PROCEDIMENTO N°: ${num}\n${textoProc}\nEnvolvidos:\n${textoEnvol}======================================================\n\n`;
+                relatorioFinal += `==========>PROCEDIMENTO N°: ${num}\n${textoProc}\nEnvolvidos:\n${textoEnvol}\n======================================================\n\n`;
                 
             });
             relatorioFinal += `######### FIM PROCEDIMENTOS #########\n\n`;
@@ -407,10 +393,11 @@ nome.addEventListener('input', () => {
     gerarRelatorioCompleto();
 })
 
-//Função para limparar tuuuudo
+//Função para limpar tuuuudo
 function limpaTudo(){
     //Limpando todas as textAreas e Inputs
     document.querySelector('#nome').value = '';
+    nomeMae.value = '';
     document.querySelector('#cpf').value = '';
     document.querySelectorAll('.indicadores').forEach(indicadores => {indicadores.value = ''});
     document.querySelectorAll('.texto-procedimento').forEach(texto => {texto.value = ''});
@@ -419,6 +406,8 @@ function limpaTudo(){
     document.querySelector('.txt-processo').value = '';
     document.querySelector('.conteudo-bo').value = '';
     relatorio.value = '';
+    //esconde o nome da mae
+    container_cpfBtn.className.includes('none-input') ? null : abrirFecharNomeCPF();//usei o null para não fazer nada caso tenha none-input
     //desmarcando as checkbox
     document.querySelectorAll('.input-chekbox').forEach(checkbox => {checkbox.checked = false;});
     //fechando as areas
@@ -453,6 +442,7 @@ function limpaTudo(){
     document.querySelector('.btn-envolvidos').style.backgroundColor = '#480000';
     document.querySelector('.texto-envolvidos').classList.replace('mostrar', 'esconder');
     
+
 
 }   
 
